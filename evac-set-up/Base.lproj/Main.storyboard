@@ -55,13 +55,49 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0iJ-Wk-pes">
+                                <rect key="frame" x="87" y="368" width="212" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="SAFEROOM"/>
+                                <connections>
+                                    <action selector="clickedButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7l2-FW-SiO"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lIM-6Z-qlK">
+                                <rect key="frame" x="87" y="439" width="212" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="LANDMARK"/>
+                                <connections>
+                                    <action selector="clickedLandmark:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dsq-Ow-z5r"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m4I-2c-5zX">
+                                <rect key="frame" x="87" y="302" width="212" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="CORNER"/>
+                                <connections>
+                                    <action selector="clickedButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OOp-Zz-zsU"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MFp-WW-Gh9">
+                                <rect key="frame" x="87" y="243" width="212" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="EXIT"/>
+                                <connections>
+                                    <action selector="clickedButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eGa-54-hp1"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="corner" destination="m4I-2c-5zX" id="AHb-7e-nTO"/>
+                        <outlet property="exit" destination="MFp-WW-Gh9" id="Bgm-hd-swZ"/>
+                        <outlet property="landmark" destination="lIM-6Z-qlK" id="bfq-YT-dkd"/>
                         <outlet property="latitude" destination="0ap-Ku-6Zm" id="yab-PQ-jQb"/>
                         <outlet property="longitude" destination="953-rl-bEm" id="mwe-hF-jxw"/>
+                        <outlet property="saferoom" destination="0iJ-Wk-pes" id="TUQ-na-ANb"/>
                         <outlet property="saveButton" destination="Znb-hS-xoE" id="ksC-K0-s58"/>
                     </connections>
                 </viewController>

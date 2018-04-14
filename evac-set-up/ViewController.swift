@@ -9,6 +9,11 @@
 import UIKit
 import CoreLocation
 
+enum ExitType:String{
+    case saferoom
+    case door
+}
+
 class ViewController: UIViewController, CLLocationManagerDelegate {
     
     var locationManager: CLLocationManager!
@@ -16,6 +21,76 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var longitude: UILabel!
     @IBOutlet weak var latitude: UILabel!
+    @IBOutlet weak var exit: UIButton!
+    @IBOutlet weak var corner: UIButton!
+    @IBOutlet weak var saferoom: UIButton!
+    @IBOutlet weak var landmark: UIButton!
+    
+    
+    
+    
+    @IBAction func clickedButton(_ sender: UIButton) {
+        guard let latitudeString = latitude.text as? NSString else { return }
+        guard let longitudeString = longitude.text as? NSString else { return }
+        
+        var params: [String: Any] = ["lat": latitudeString.doubleValue,
+                                     "lon": longitudeString.doubleValue,
+                                     "el": 0]
+        switch sender{
+        case exit:
+            params["type"] = ExitType.door.rawValue
+        
+        case corner:
+            params["label"] = "corner"
+            
+        case saferoom:
+            params["type"] = ExitType.saferoom.rawValue
+            
+        
+        default: return
+
+        }
+        
+    }
+    
+     @IBAction func clickedLandmark(_ sender: UIButton) {
+        
+        guard let latitudeString = latitude.text as? NSString else { return }
+        guard let longitudeString = longitude.text as? NSString else { return }
+        
+        let alert = UIAlertController(title: "Great Title", message: "Please input something", preferredStyle: UIAlertControllerStyle.alert)
+        
+        let action = UIAlertAction(title: "Name Input", style: .default) { (alertAction) in
+            let textField = alert.textFields![0] as UITextField
+            print(textField.text)
+            var params: [String: Any] = ["lat": latitudeString.doubleValue,
+                                         "lon": longitudeString.doubleValue,
+                                         "el": 0,
+                                         "label": textField.text]
+
+            
+        }
+        
+        alert.addTextField { (textField) in
+            textField.placeholder = "Enter your name"
+        }
+        
+        alert.addAction(action)
+        self.present(alert, animated:true, completion: nil)
+        
+        
+        
+        
+        
+        
+    }
+    
+    
+    func 
+    
+   
+    
+    
   
     
     
