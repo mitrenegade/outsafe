@@ -48,7 +48,7 @@
 		C11D3C10208263DB00B14C35 /* evac-set-upUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "evac-set-upUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C11D3C14208263DB00B14C35 /* evac_set_upUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = evac_set_upUITests.swift; sourceTree = "<group>"; };
 		C11D3C16208263DB00B14C35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C11D3C22208298C200B14C35 /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIService.swift; path = ../../../Downloads/APIService.swift; sourceTree = "<group>"; };
+		C11D3C22208298C200B14C35 /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
