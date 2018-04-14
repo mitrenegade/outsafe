@@ -39,12 +39,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         switch sender{
         case exit:
             params["type"] = ExitType.door.rawValue
+            sendData(params: params, name: "exit")
         
         case corner:
             params["label"] = "corner"
+            sendData(params: params, name: "landmark")
             
         case saferoom:
             params["type"] = ExitType.saferoom.rawValue
+            sendData(params: params, name: "exit")
             
         
         default: return
@@ -65,8 +68,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             print(textField.text)
             var params: [String: Any] = ["lat": latitudeString.doubleValue,
                                          "lon": longitudeString.doubleValue,
-                                         "el": 0,
-                                         "label": textField.text]
+                                         "el": 0]
+            if let nameString = textField.text{
+                params["label"] = nameString
+            }
+            self.sendData(params: params, name: "Landmark")
 
             
         }
@@ -77,16 +83,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         alert.addAction(action)
         self.present(alert, animated:true, completion: nil)
-        
-        
-        
-        
-        
-        
     }
     
     
-    func 
+    func sendData(params:[String:Any], name: String){
+        let service = APIService()
+        service.cloudFunction(functionName: name, params: params) { (result, error) in
+            print(result)
+            print(error)
+        }
+    }
     
    
     
