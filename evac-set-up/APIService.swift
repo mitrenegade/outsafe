@@ -42,8 +42,8 @@ class APIService: NSObject {
         task.resume()
     }
     
-    func cloudFunction(functionName: String, method: String = "POST", params: [String: Any]?, completion: cloudCompletionHandler?) {
-        guard let url = self.baseURL?.appendingPathComponent(functionName) else {
+    func cloudFunction(id: String, functionName: String, method: String = "POST", params: [String: Any]?, completion: cloudCompletionHandler?) {
+        guard let url = self.baseURL?.appendingPathComponent(id).appendingPathComponent(functionName) else {
             completion?(nil, nil) // todo
             return
         }

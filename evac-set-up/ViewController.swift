@@ -25,6 +25,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var corner: UIButton!
     @IBOutlet weak var saferoom: UIButton!
     @IBOutlet weak var landmark: UIButton!
+    @IBOutlet weak var id: UITextField!
     
     
     
@@ -87,8 +88,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     
     func sendData(params:[String:Any], name: String){
+    
         let service = APIService()
-        service.cloudFunction(functionName: name, params: params) { (result, error) in
+        guard let idString = id.text else {return}
+       
+        service.cloudFunction(id: idString, functionName: name, params: params) { (result, error) in
             print(result)
             print(error)
         }
