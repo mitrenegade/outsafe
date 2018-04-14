@@ -18,7 +18,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     var locationManager: CLLocationManager!
     
-    @IBOutlet weak var saveButton: UIButton!
+
     @IBOutlet weak var longitude: UILabel!
     @IBOutlet weak var latitude: UILabel!
     @IBOutlet weak var exit: UIButton!
@@ -34,21 +34,29 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         guard let latitudeString = latitude.text as? NSString else { return }
         guard let longitudeString = longitude.text as? NSString else { return }
         
-        var params: [String: Any] = ["lat": latitudeString.doubleValue,
-                                     "lon": longitudeString.doubleValue,
+        let latValue = latitudeString.doubleValue
+        let lonValue = longitudeString.doubleValue
+        
+        
+        var params: [String: Any] = ["lat": latValue,
+                                     "lon": lonValue,
                                      "el": 0]
         switch sender{
         case exit:
             params["type"] = ExitType.door.rawValue
             sendData(params: params, name: "exit")
+            //feedback(place: "Exit", lat: latValue, lon: lonValue)
         
         case corner:
             params["label"] = "corner"
             sendData(params: params, name: "landmark")
+            //feedback(place: "Corner", lat: latValue, lon: lonValue)
+            
             
         case saferoom:
             params["type"] = ExitType.saferoom.rawValue
             sendData(params: params, name: "exit")
+            //feedback(place: "Saferoom", lat: latValue, lon: lonValue)
             
         
         default: return
@@ -62,24 +70,28 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         guard let latitudeString = latitude.text as? NSString else { return }
         guard let longitudeString = longitude.text as? NSString else { return }
         
-        let alert = UIAlertController(title: "Great Title", message: "Please input something", preferredStyle: UIAlertControllerStyle.alert)
+        let latValue = latitudeString.doubleValue
+        let lonValue = longitudeString.doubleValue
         
-        let action = UIAlertAction(title: "Name Input", style: .default) { (alertAction) in
+        let alert = UIAlertController(title: "Please label the landmark:", message: "ex: stage, screen, restroom...", preferredStyle: UIAlertControllerStyle.alert)
+        
+        let action = UIAlertAction(title: "Save", style: .default) { (alertAction) in
             let textField = alert.textFields![0] as UITextField
             print(textField.text)
-            var params: [String: Any] = ["lat": latitudeString.doubleValue,
-                                         "lon": longitudeString.doubleValue,
+            var params: [String: Any] = ["lat": latValue,
+                                         "lon": lonValue,
                                          "el": 0]
             if let nameString = textField.text{
                 params["label"] = nameString
             }
             self.sendData(params: params, name: "Landmark")
+            //self.feedback(place: "Landmark", lat: latValue, lon: lonValue)
 
             
         }
         
         alert.addTextField { (textField) in
-            textField.placeholder = "Enter your name"
+            textField.placeholder = " "
         }
         
         alert.addAction(action)
@@ -93,11 +105,50 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         guard let idString = id.text else {return}
        
         service.cloudFunction(id: idString, functionName: name, params: params) { (result, error) in
-            print(result)
-            print(error)
+            DispatchQueue.main.async {
+                if let successfulResult = result as? [String:Any]{
+                    print(result)
+                    let title = "Saved!"
+                    let lon = successfulResult["lon"]!
+                    let lat = successfulResult["lat"]!
+                    if let placeLabel = successfulResult["label"]{
+                        let message = "\(placeLabel): \n\(lat),\n\(lon)"
+                        self.feedback(title: title, message: message)
+        
+                    }else{
+                        if let placeType = successfulResult["type"]{
+                            let message = "\(placeType): \n\(lat),\n\(lon)"
+                            self.feedback(title: title, message: message)
+                        }
+                   
+                    }
+                    
+                    
+                    
+                }
+                else{
+                    if let failedResult = error{
+                        let title = "Error!"
+                        let message = "Please try again"
+                        print(failedResult)
+                        self.feedback(title: title, message: message)
+                    }
+                }
+            }
         }
     }
     
+    
+    func feedback(title: String, message: String){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        
+        alert.addAction(action)
+        
+        self.present(alert, animated:true, completion: nil)
+        
+    }
    
     
     

@@ -39,11 +39,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Znb-hS-xoE">
-                                <rect key="frame" x="106" y="526" width="186" height="73"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Save"/>
-                            </button>
                             <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="87A-56-Z7H">
                                 <rect key="frame" x="216" y="401" width="72" height="20.5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -113,7 +108,6 @@
                         <outlet property="latitude" destination="0ap-Ku-6Zm" id="yab-PQ-jQb"/>
                         <outlet property="longitude" destination="953-rl-bEm" id="mwe-hF-jxw"/>
                         <outlet property="saferoom" destination="0iJ-Wk-pes" id="TUQ-na-ANb"/>
-                        <outlet property="saveButton" destination="Znb-hS-xoE" id="ksC-K0-s58"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
