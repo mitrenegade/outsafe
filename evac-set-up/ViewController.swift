@@ -18,12 +18,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     var locationManager: CLLocationManager!
 
-    @IBOutlet weak var longitude: UILabel!
-    @IBOutlet weak var latitude: UILabel!
+    @IBOutlet weak var longitude: UITextField!
+    @IBOutlet weak var latitude: UITextField!
     @IBOutlet weak var exit: UIButton!
     @IBOutlet weak var corner: UIButton!
     @IBOutlet weak var saferoom: UIButton!
     @IBOutlet weak var landmark: UIButton!
+    @IBOutlet weak var event: UIButton!
     @IBOutlet weak var id: UITextField!
     
     @IBAction func clickedButton(_ sender: UIButton) {
