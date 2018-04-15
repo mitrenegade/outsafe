@@ -27,6 +27,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var event: UIButton!
     @IBOutlet weak var id: UITextField!
     
+    var elevation: Double = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -82,7 +84,6 @@ class ViewController: UIViewController {
             sendData(params: params, name: "exit")
             //feedback(place: "Saferoom", lat: latValue, lon: lonValue)
             
-        
         default: return
 
         }
@@ -111,7 +112,7 @@ class ViewController: UIViewController {
             if let nameString = textField.text{
                 params["label"] = nameString
             }
-            self.sendData(params: params, name: "Landmark")
+            self.sendData(params: params, name: "landmark")
         })
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .default) { (alertAction) in
@@ -120,7 +121,36 @@ class ViewController: UIViewController {
         self.present(alert, animated:true, completion: nil)
     }
     
-    
+    @IBAction func clickedEvent(_ sender: UIButton) {
+        
+        guard let latitudeString = latitude.text as? NSString else { return }
+        guard let longitudeString = longitude.text as? NSString else { return }
+        
+        let latValue = latitudeString.doubleValue
+        let lonValue = longitudeString.doubleValue
+        
+        var params: [String: Any] = ["lat": latValue,
+                                     "lon": lonValue,
+                                     "el": elevation]
+
+        let alert = UIAlertController(title: "Please select event type:", message: "", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Fire", style: .default) { (alertAction) in
+            params["eventType"] = "fire"
+            self.sendData(params: params, name: "event")
+        })
+
+        alert.addAction(UIAlertAction(title: "Shooter", style: .default) { (alertAction) in
+            params["eventType"] = "shooter"
+            self.sendData(params: params, name: "event")
+        })
+
+        alert.addAction(UIAlertAction(title: "Cancel", style: .default) { (alertAction) in
+        })
+        
+        self.present(alert, animated:true, completion: nil)
+    }
+
     func sendData(params:[String:Any], name: String){
     
         let service = APIService()
@@ -129,7 +159,7 @@ class ViewController: UIViewController {
         service.cloudFunction(id: idString, functionName: name, params: params) { (result, error) in
             DispatchQueue.main.async {
                 if let successfulResult = result as? [String:Any]{
-                    print(result)
+                    print(successfulResult)
                     let title = "Saved!"
                     let lon = successfulResult["lon"]!
                     let lat = successfulResult["lat"]!
@@ -190,11 +220,11 @@ extension ViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]){
-        var loc=locations[0]
+        let loc = locations[0]
         latitude.text="\(loc.coordinate.latitude)"
         longitude.text="\(loc.coordinate.longitude)"
-        print(loc.coordinate.latitude)
-        print(loc.coordinate.longitude)
+        elevation = loc.altitude
+        print("\(loc.coordinate.latitude) \(loc.coordinate.longitude) \(elevation)")
     }
 }
 
