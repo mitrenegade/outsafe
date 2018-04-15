@@ -14,7 +14,7 @@ enum ExitType:String{
     case door
 }
 
-class ViewController: UIViewController, CLLocationManagerDelegate {
+class ViewController: UIViewController {
     
     var locationManager: CLLocationManager!
 
@@ -26,6 +26,33 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var landmark: UIButton!
     @IBOutlet weak var event: UIButton!
     @IBOutlet weak var id: UITextField!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy=kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
+        locationManager.startUpdatingLocation()
+        
+        let keyboardNextButtonView = UIToolbar()
+        keyboardNextButtonView.sizeToFit()
+        keyboardNextButtonView.barStyle = UIBarStyle.black
+        keyboardNextButtonView.isTranslucent = true
+        keyboardNextButtonView.tintColor = UIColor.white
+        let button: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(cancelInput))
+        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        keyboardNextButtonView.setItems([flex, button], animated: true)
+        
+        id.inputAccessoryView = keyboardNextButtonView
+        
+    }
+    
+    @objc func cancelInput() {
+        self.view.endEditing(true)
+    }
     
     @IBAction func clickedButton(_ sender: UIButton) {
         guard let latitudeString = latitude.text as? NSString else { return }
@@ -71,8 +98,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let lonValue = longitudeString.doubleValue
         
         let alert = UIAlertController(title: "Please label the landmark:", message: "ex: stage, screen, restroom...", preferredStyle: UIAlertControllerStyle.alert)
-        
-        let action = UIAlertAction(title: "Save", style: .default) { (alertAction) in
+        alert.addTextField { (textField) in
+            textField.placeholder = " "
+        }
+
+        alert.addAction(UIAlertAction(title: "Save", style: .default) { (alertAction) in
             let textField = alert.textFields![0] as UITextField
             print(textField.text)
             var params: [String: Any] = ["lat": latValue,
@@ -82,19 +112,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 params["label"] = nameString
             }
             self.sendData(params: params, name: "Landmark")
-            //self.feedback(place: "Landmark", lat: latValue, lon: lonValue)
+        })
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .default) { (alertAction) in
+        })
 
-            
-        }
-        
-        let action = UIAlertAction(title: "Cancel", style: .default) { (alertAction) in
-        }
-        
-        alert.addTextField { (textField) in
-            textField.placeholder = " "
-        }
-        
-        alert.addAction(action)
         self.present(alert, animated:true, completion: nil)
     }
     
@@ -149,11 +171,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.present(alert, animated:true, completion: nil)
         
     }
-   
-    
-    
-  
-    
+}
+
+extension ViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse || status == .authorizedAlways {
@@ -176,43 +196,5 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         print(loc.coordinate.latitude)
         print(loc.coordinate.longitude)
     }
-
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy=kCLLocationAccuracyBest
-        locationManager.requestAlwaysAuthorization()
-        locationManager.startUpdatingLocation()
-        
-        let keyboardNextButtonView = UIToolbar()
-        keyboardNextButtonView.sizeToFit()
-        keyboardNextButtonView.barStyle = UIBarStyle.black
-        keyboardNextButtonView.isTranslucent = true
-        keyboardNextButtonView.tintColor = UIColor.white
-        let button: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(cancelInput))
-        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        keyboardNextButtonView.setItems([flex, button], animated: true)
-        
-        id.inputAccessoryView = keyboardNextButtonView
-
-    }
-    
-    @objc func cancelInput() {
-        self.view.endEditing(true)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
-    
-
-
 }
 
